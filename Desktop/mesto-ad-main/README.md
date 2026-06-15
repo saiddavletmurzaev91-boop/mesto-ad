@@ -1,1 +1,1 @@
-https://github.com/rizahanovimam/mesto-ad
+https://github.com/saiddavletmurzaev91-boop/mesto-ad
