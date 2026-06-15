@@ -34,7 +34,7 @@ const validationSettings = {
 enableValidation(validationSettings);
 
 import { initialCards } from "./cards.js";
-import { createCardElement, likeCard } from "./components/card.js";
+import { createCardElement, likeCard, removeCard, isCardLiked } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
 // DOM узлы
@@ -163,18 +163,16 @@ const handleCardFormSubmit = (evt) => {
 const handleDeleteCard = (cardElement, cardId) => {
   deleteCard(cardId) 
     .then(() => {
-      cardElement.remove();
+      removeCard(cardElement);
     })
     .catch(console.log);
 };
 
-const handlechangeLikeCardStatus = (likeButton, cardId, likeCounter) => {
-  const isLiked = likeButton.classList.contains("card__like-button_is-active");
+const handlechangeLikeCardStatus = (likeButton, cardId, likeCounter, isLiked) => {
 
   changeLikeCardStatus(cardId, isLiked)
     .then((updatedCard) => {
-      likeButton.classList.toggle("card__like-button_is-active");
-      likeCounter.textContent = updatedCard.likes.length;
+     likeCard(updatedCard, likeButton, likeCounter);
     })
     .catch((err) => {
       console.log(err);
@@ -188,6 +186,7 @@ const formatDate = (date) =>
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
   });
 
 const createInfoString = (term, description) => {
@@ -236,8 +235,13 @@ const handleLogoClick = () => {
       const sortedCards = cards.slice().sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      const firstCardDate = formatDate(new Date(sortedCards[sortedCards.length - 1].createdAt));
-      const lastCardDate = formatDate(new Date(sortedCards[0].createdAt));
+      const firstCardDate = formatDate(
+        new Date(sortedCards[sortedCards.length - 1].createdAt)
+      );
+
+      const lastCardDate = formatDate(
+        new Date(sortedCards[0].createdAt)
+      );
       
       usersStatsModalInfoList.append(
         createInfoString("Всего карточек:", totalCards.toString())

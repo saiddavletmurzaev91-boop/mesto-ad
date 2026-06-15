@@ -1,5 +1,6 @@
-export const likeCard = (likeButton) => {
+export const likeCard = (updatedCard, likeButton, likeCounter) => {
   likeButton.classList.toggle("card__like-button_is-active");
+  likeCounter.textContent = updatedCard.likes.length;
 };
 
 
@@ -11,7 +12,7 @@ const getTemplate = () => {
     .cloneNode(true);
 };
 
-const isCardLiked = (likesArray, userId) => {
+export const isCardLiked = (likesArray, userId) => {
   return likesArray.some((like) => like._id === userId);
 };
 
@@ -37,9 +38,10 @@ export const createCardElement = (
   if (data.likes.some((l) => l._id === currentUserId)) {
     likeButton.classList.add("card__like-button_is-active");
   }
-  likeButton.addEventListener("click", () =>
-    onLikeClick(likeButton, data._id, likeCounter)
-  );
+  likeButton.addEventListener("click", () => {
+  const isLiked = likeButton.classList.contains("card__like-button_is-active");
+  onLikeClick(likeButton, data._id, likeCounter, isLiked);
+});
   if (data.owner._id !== currentUserId) {
     deleteButton.remove();
   } else {
@@ -48,4 +50,7 @@ export const createCardElement = (
     );
   }
   return cardElement;
+};
+export const removeCard = (cardElement) => {
+  cardElement.remove();
 };
