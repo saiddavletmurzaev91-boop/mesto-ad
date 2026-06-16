@@ -1,4 +1,4 @@
-```js
+
 const handleEscapeKey = (event) => {
   if (event.key !== "Escape") {
     return;
@@ -38,4 +38,4 @@ export const setCloseModalWindowEventListeners = (popup) => {
     closeByOverlay(popup, event);
   });
 };
-```
+
