@@ -1,10 +1,3 @@
-/*
-  Файл index.js является точкой входа в наше приложение
-  и только он должен содержать логику инициализации нашего приложения
-  используя при этом импорты из других файлов
-
-  Из index.js не допускается что то экспортировать
-*/
 
 import { 
   getUserInfo, 
@@ -17,10 +10,8 @@ import {
 } from "./components/api.js";
 
 
-// файл index.js
 import { enableValidation, clearValidation } from "./components/validation.js";
 
-// Создание объекта с настройками валидации
 const validationSettings = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -30,11 +21,9 @@ const validationSettings = {
   errorClass: "popup__error_visible",
 };
 
-// включение валидации вызовом enableValidation
 enableValidation(validationSettings);
 
-import { initialCards } from "./cards.js";
-import { createCardElement, likeCard, removeCard, isCardLiked } from "./components/card.js";
+import { createCardElement, likeCard, removeCard } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 
 // DOM узлы
@@ -298,7 +287,6 @@ openCardFormButton.addEventListener("click", () => {
 });
 
 
-// настраиваем обработчики закрытия попапов
 const allPopups = document.querySelectorAll(".popup");
 allPopups.forEach((popup) => {
   setCloseModalWindowEventListeners(popup);
@@ -308,7 +296,6 @@ allPopups.forEach((popup) => {
 
 Promise.all([getCardList(), getUserInfo()])
   .then(([cards, userData]) => {
-    // Код отвечающий за отрисовку полученных данных
     currentUserId = userData._id;
 
     profileTitle.textContent = userData.name;
@@ -327,6 +314,6 @@ Promise.all([getCardList(), getUserInfo()])
     });
   })
   .catch((err) => {
-    console.log(err); // В случае возникновения ошибки выводим её в консоль
+    console.log(err); 
   });
   
