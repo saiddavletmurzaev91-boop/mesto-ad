@@ -1,76 +1,69 @@
-const config = {
-  baseUrl: "https://mesto.nomoreparties.co/v1/apf-cohort-203",
+```js
+const apiSettings = {
+  url: "https://mesto.nomoreparties.co/v1/apf-cohort-203",
   headers: {
     authorization: "11a2ddfa-556d-46bb-a889-d2157f8510e9",
     "Content-Type": "application/json",
   },
 };
 
-const getResponseData = (res) => {
-  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-}; 
+const checkResponse = (response) => {
+  if (response.ok) {
+    return response.json();
+  }
 
-export const getUserInfo = () => {
-  return fetch(`${config.baseUrl}/users/me`, { // Запрос к API-серверу
-    headers: config.headers, // Подставляем заголовки
-  }).then(getResponseData);  // Проверяем успешность выполнения запроса
+  return Promise.reject(`Ошибка: ${response.status}`);
 };
 
-export const setUserInfo = ({ name, about }) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+const request = (endpoint, options = {}) => {
+  return fetch(`${apiSettings.url}${endpoint}`, {
+    headers: apiSettings.headers,
+    ...options,
+  }).then(checkResponse);
+};
+
+export const getUserInfo = () => request("/users/me");
+
+export const getCardList = () => request("/cards");
+
+export const setUserInfo = ({ name, about }) =>
+  request("/users/me", {
     method: "PATCH",
-    headers: config.headers,
     body: JSON.stringify({
       name,
       about,
     }),
-  }).then(getResponseData);
-};
+  });
 
-export const getCardList = () => {
-  return fetch(`${config.baseUrl}/cards`, { // Запрос к API-серверу
-    headers: config.headers, // Подставляем заголовки
-  }).then(getResponseData);  // Проверяем успешность выполнения запроса
-};
-
-
-export const setAvatar = ({avatar}) => {
-  return fetch(`${config.baseUrl}/users/me/avatar`, {
+export const setAvatar = ({ avatar }) =>
+  request("/users/me/avatar", {
     method: "PATCH",
-    headers: config.headers,
     body: JSON.stringify({
-      avatar
+      avatar,
     }),
-  }).then(getResponseData);
-}
+  });
 
-export const setCard = ({name, link}) => {
-  return fetch(`${config.baseUrl}/cards`, {
+export const setCard = ({ name, link }) =>
+  request("/cards", {
     method: "POST",
-    headers: config.headers,
     body: JSON.stringify({
       name,
-      link
+      link,
     }),
-  }).then(getResponseData);
-}
+  });
 
-export const deleteCard = (cardId) => {
-  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+export const deleteCard = (cardId) =>
+  request(`/cards/${cardId}`, {
     method: "DELETE",
-    headers: config.headers,
-  }).then(getResponseData);
-}
+  });
 
-
-export const changeLikeCardStatus = (cardID, isLiked) => {
-  return fetch(`${config.baseUrl}/cards/likes/${cardID}`, {
-    method: isLiked ?  "DELETE" : "PUT",
-    headers: config.headers,
-  }).then((res) => getResponseData(res));
-};
+export const changeLikeCardStatus = (cardId, isLiked) =>
+  request(`/cards/likes/${cardId}`, {
+    method: isLiked ? "DELETE" : "PUT",
+  });
 
 export const updateLikeCount = (cardElement, likes) => {
-  const likeCountElement = cardElement.querySelector('.card__like-count');
-  likeCountElement.textContent = likes.length;
+  const likesCounter = cardElement.querySelector(".card__like-count");
+  likesCounter.textContent = likes.length;
 };
+```
