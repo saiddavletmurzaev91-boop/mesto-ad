@@ -1,4 +1,4 @@
-```js
+
 const apiSettings = {
   url: "https://mesto.nomoreparties.co/v1/apf-cohort-203",
   headers: {
@@ -66,4 +66,3 @@ export const updateLikeCount = (cardElement, likes) => {
   const likesCounter = cardElement.querySelector(".card__like-count");
   likesCounter.textContent = likes.length;
 };
-```
