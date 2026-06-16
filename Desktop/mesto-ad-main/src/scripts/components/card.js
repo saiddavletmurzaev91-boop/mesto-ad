@@ -1,4 +1,4 @@
-```js
+
 const cardTemplateSelector = "#card-template";
 
 const cloneCardTemplate = () => {
@@ -75,4 +75,4 @@ export const createCardElement = (
 
   return card;
 };
-```
+
