@@ -203,7 +203,6 @@ const handleLogoClick = () => {
   
   getCardList()
     .then((cards) => {
-      console.log(cards);
       usersStatsModalInfoList.innerHTML = "";
       const usersList = usersStatsModalWindow.querySelector(".popup__list");
       if (usersList) usersList.innerHTML = "";
