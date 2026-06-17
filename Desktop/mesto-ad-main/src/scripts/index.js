@@ -175,6 +175,7 @@ const formatDate = (date) =>
     year: "numeric",
     month: "long",
     day: "numeric",
+ 
   });
 
 const createInfoString = (term, description) => {
