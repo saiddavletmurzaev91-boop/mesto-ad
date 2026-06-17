@@ -175,7 +175,6 @@ const formatDate = (date) =>
     year: "numeric",
     month: "long",
     day: "numeric",
-    timeZone: "UTC",
   });
 
 const createInfoString = (term, description) => {
