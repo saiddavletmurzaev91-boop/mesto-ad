@@ -10,7 +10,6 @@ const hasUserLike = (likes, userId) => {
   return likes.some((user) => user._id === userId);
 };
 
-export const isCardLiked = hasUserLike;
 
 export const likeCard = (cardData, likeButton, counterElement) => {
   likeButton.classList.toggle("card__like-button_is-active");
